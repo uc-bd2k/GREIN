@@ -1,0 +1,14 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+<center> <h4>
+Criteria for filtering metadata</h4> </center>
+
+We filter the metadata based on the follwoing critera: 
+
+* Properties that contain a single value
+* Properties with incoherent information regarding visualization such as dates, time, download path and so on.
+
+Although the filtered metadata table is printed here, the full metadata is available to download. 

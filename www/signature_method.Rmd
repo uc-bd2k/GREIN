@@ -1,0 +1,9 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h4>
+Method of calculating signatures</h4> </center>
+
+Genewise exact tests from edgeR (version: 3.16.5) is used to calculate signatures. Group2 is considered as reference in computing fold change. 

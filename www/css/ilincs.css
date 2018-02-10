@@ -1,0 +1,190 @@
+/*! from logo-nav.css
+ * Start Bootstrap - Logo Nav HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+
+body {
+    padding-top: 60px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+}
+
+.navbar-fixed-top .nav {
+    padding: 15px 0;
+}
+
+.navbar-fixed-top .navbar-brand {
+    padding: 0 15px;
+}
+
+@media(min-width:768px) {
+    body {
+        padding-top: 80px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+    }
+
+    .navbar-fixed-top .navbar-brand {
+        padding: 15px 0;
+    }
+}
+
+
+/* Bootstrap changes from ilincs.css*/
+@media (min-width: 768px)
+{
+.nav>li>a {
+font-size: 16px;
+}
+}
+
+h4{
+font-weight:bold;
+}
+
+.btn.btn-link{
+  white-space:normal !important;
+  word-wrap:break-word;
+  text-align: left;
+}
+
+label:hover {
+text-decoration:underline;
+}
+
+#tutorial{
+margin-top:180px;
+display:none;
+}
+
+.tutorials-sub-heading{
+color:#000000;
+}
+/* 	.chardinjs-overlay { */
+/*   position: absolute; */
+/*   z-index: 1000; */
+/* 	} */
+
+/* 	.youtube_video{ */
+
+/*   z-index: 9999999; */
+/* 	} */
+
+div#menu{
+padding:10px;
+font-weight:bold;
+}
+
+/*Polish changes in .footer*/
+/*html,
+body {  }*/
+
+body {
+display: table;
+width: 100%;
+height:100%;
+/* Margin bottom by footer height */
+  margin-bottom: 120px;
+}
+
+html{
+position: relative;
+  min-height: 100%;
+}
+
+.page-row {
+display: table-row;
+height: 110px;
+
+}
+
+footer{
+position:absolute;bottom:0;width:100%;height:120px;
+}
+
+.footer{
+padding: 10px 30px;
+background-color: #000000;
+color:#dddddd;
+/* 	min-height:220px; */
+margin-top:10px
+width:100%;
+}
+
+.footer ul{
+list-style-type:none;
+padding-left:10px;
+}
+
+
+.footer h4{
+font-weight:normal;
+color:#ffffff;
+}
+.page-row-expanded { height: 100%; }
+
+.navbar-inverse .navbar-nav>li>a {
+color:#cccccc;
+}
+
+#navbar-name{
+
+display:block;
+padding-top:15px;
+/* 	padding-right:10px; */
+
+}
+
+#navbar-name a{
+  color:#cccccc;
+/* 	 	margin-left:10px; */
+/* 	padding-left:10px; */
+  font-size:16px;
+/* 		font-weight:bold; */
+  font-family:'Arial Narrow'c,Arial,sans-serif;
+}
+
+@media (min-width: 768px){
+  #navbar-name{padding-top:25px;}
+
+#navbar-name a{
+  font-size:22px; }
+}
+
+#navbar-name a:hover{
+color:#ffffff;
+text-decoration:none;
+}
+
+#toolslist li {
+display:inline;
+list-style-type:none;
+padding-right:20px;
+padding-top:20px;
+}
+
+.about-logos{
+/*  	width:100%; */
+padding:30px 10px;
+width:120px;
+
+}
+
+.about-bottom-logos{
+/*  	width:100%; */
+/*   	padding:30px 10px;  */
+padding-top:10px;
+padding-right:20px;
+/* 	width:200px; */
+  height:80px;
+
+}
+
+#BD2K {
+    color: #BBBBBB;
+    padding-right: 7px;
+}
+
+.breadcrumb{
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 4px 15px;
+}

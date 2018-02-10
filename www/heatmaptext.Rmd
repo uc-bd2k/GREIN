@@ -1,0 +1,9 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h4>
+Criteria for gene selection</h4> </center>
+
+Heatmaps are generated for visualizing hierarchical clustering of the gene expression data. We compute median absolute deviation (MAD) for all the genes and order them. Then we select top 1000 genes based on the MAD values.
