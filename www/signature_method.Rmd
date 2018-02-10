@@ -4,6 +4,6 @@ output: html_document
 ---
 
 <center> <h4>
-Method of calculating signatures</h4> </center>
+<span style="color:#337ab7">Method of constructing a signature</span></h4> </center>
 
-Genewise exact tests from edgeR (version: 3.16.5) is used to calculate signatures. Group2 is considered as reference in computing fold change. 
+Genewise negative binomial generalized log-linear models with quasi-likelihood tests and genewise exact tests from bioconductor package [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) are used to calculate differential expression between groups with and without covariates respectively. Control group is considered as reference in computing log of fold change and p-value is adjusted for multiple comparison. 

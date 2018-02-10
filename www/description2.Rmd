@@ -1,0 +1,11 @@
+---
+title: ''
+output: html_document
+---
+  
+We have developed **GRIN** with a goal to provide easy access to the processed GEO RNA-seq data sets. This interactive and intuitive web application allows a user with little or no computational programming background to explore, analyze, and download these data sets in a point-and-click manner. A **step-by-step** guide of using GRIN with an example data set is outlined [here](step-by-step.html).  
+
+GRIN provides the flexibility to upload signatures directly to [ilincs](https://www.ilincs.org/apps/GRIN/) for further in-depth analysis. In addition, GRIN produces publication-ready graphs and let the user to download all the analysis results.
+By accumulating the processed GEO RNA-seq datasets in a common platform, we present GRIN as a prominent choice to the practitioner for analyzing GEO RNA-seq datasets.
+
+Created by Naim A Mahi, 2017 &bull; Code on [GitHub].

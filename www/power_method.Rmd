@@ -1,0 +1,15 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h4>
+<span style="color:#337ab7">Method of calculating power</span></h4> </center>
+
+We use bioconductor package [RNASeqPower](https://bioconductor.org/packages/release/bioc/html/RNASeqPower.html) to calculate power for different combinations of the following parameters:
+* Biological coefficient of variation calculated as the squared root of common dispersion (We use bioconductor package [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) to calculate common dispersion).
+* User specified fold change as the effect size.
+* User specified false positive rate or alpha.
+* User specified number of samples. Default is the sample size of the current data. 
+* User specific average sequencing depth in million. The default is calculated as the average column sums in million.
+

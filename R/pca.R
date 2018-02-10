@@ -14,11 +14,14 @@
 
 		exps <- data_mat[complete.cases(data_mat),]
 		pseudoCount <- as.matrix(exps)
-		b.PCA <- prcomp(t(pseudoCount),retx=TRUE,center=TRUE)
-
-			pca.mat <- if (ncol(b.PCA$x)<5) {b.PCA$x} else {cbind(b.PCA$x[,1],b.PCA$x[,2],b.PCA$x[,3],b.PCA$x[,4],b.PCA$x[,5])}
-
 		groups <- metadata[,which(colnames(metadata)==property)] 
+		#pseudoCount <- removeBatchEffect(as.matrix(exps),batch=groups)
+		b.PCA <- prcomp(t(pseudoCount),retx=TRUE,center=TRUE)
+		pca.mat <- if (ncol(b.PCA$x)<5) {
+						 b.PCA$x
+					} else {
+						cbind(b.PCA$x[,1],b.PCA$x[,2],b.PCA$x[,3],b.PCA$x[,4],b.PCA$x[,5])
+					}
 		load("data/allColors.rda")
 		if (length(unique(groups))>105) {
 			colcols <- colorRampPalette(brewer.pal(11,"Spectral"))(length(unique(groups)))

@@ -1,0 +1,9 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h4>
+<span style="color:#337ab7">Detectability of genes as differentially expressed</span></h4> </center>
+
+This plot gives an idea of how the detectability of genes as differentially expressed (DE) vary based on their biological coefficient of variation (BCOV).The line of detectability (LOD) is the estimated values of BCOV for different sequencing depths. Genes above this line have lower chances to be detected as differentially expressed compared to the genes below the line. Basically, LOD tells us that even if we increase the depth of sequencing to a very high number, genes above this line have higher chances of not being detected as DE compared to the genes below this line.  

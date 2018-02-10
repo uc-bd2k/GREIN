@@ -1,0 +1,9 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h4>
+<span style="color:#337ab7">Construct your own experimental design</span></h4> </center>
+
+This section provides the flexibility of picking the groups or variables you want and modify the design table according to your choice for further analysis. 

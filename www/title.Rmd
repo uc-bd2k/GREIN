@@ -1,0 +1,7 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h2>
+<span style="color:blue">**GRIN** : </span><span style="color:darkblue">GEO RNA-seq Interactive Navigator</span></h2> </center>

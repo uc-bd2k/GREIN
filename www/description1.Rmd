@@ -1,0 +1,11 @@
+---
+title: ""
+output: html_document
+---
+
+<center> <h2>
+<span style="color:#337ab7">**GRIN** : An Interactive Web Interface for Downstream Analyses of <br/> Uniformly Processed GEO RNA-seq Datasets</span>
+</h2> </center>
+
+GRIN (**G**EO **R**NA-seq **I**nteractive **N**avigator) is a [shiny](http://shiny.rstudio.com/) based web application that provides user-friendly options for interactive exploration and analysis of [GEO](https://www.ncbi.nlm.nih.gov/geo/) RNA-seq data sets. The Gene Expression Omnibus (GEO) is a public repository of gene expression data that hosts more than 6,000 RNA-seq datasets and this number is increasing. Most of the samples are deposited in raw sequencing format which needs to be downloaded and processed. With an aim to transform all these datasets in an analysis-ready format, we are constantly processing all available RNA-seq samples of human, mouse, and rat from GEO using an R-based automated pipeline. This pipeline simultaneously downloads and processes RNA-seq raw sequencing data available in GEO. A brief outline of the pipeline workflow is described [here](pipeline.html).  
+  

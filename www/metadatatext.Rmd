@@ -4,11 +4,10 @@ output: html_document
 ---
 
 <center> <h4>
-Criteria for filtering metadata</h4> </center>
+<span style="color:#337ab7">Criteria for filtering metadata</span></h4> </center>
 
-We filter the metadata based on the follwoing critera: 
+GEO metadata contains a lot of information. However, not all of these information are useful for analysis or visualization. Besides the full metadata, we also provide a filtered version of the metadata. We filter the metadata based on the follwoing criteria: 
 
-* Properties that contain a single value
-* Properties with incoherent information regarding visualization such as dates, time, download path and so on.
+* Columns that contain a single value
+* Columns with incoherent information regarding analysis and visualization such as dates, time, download path and so on.
 
-Although the filtered metadata table is printed here, the full metadata is available to download. 
