@@ -12,7 +12,6 @@ sub_metadata <- function(metadata) {
 	grep("spot", names(pdata), value = TRUE, ignore.case=TRUE), grep("process", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("date", names(pdata), value = TRUE, ignore.case=TRUE), grep("protocol", names(pdata), value = TRUE, ignore.case=TRUE), 
 	grep("accession", names(pdata), value = TRUE, ignore.case=TRUE),
-	#grep("title", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("instrument", names(pdata), value = TRUE, ignore.case=TRUE), grep("library", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("size", names(pdata), value = TRUE, ignore.case=TRUE),grep("platform", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("paired", names(pdata), value = TRUE, ignore.case=TRUE),grep("length", names(pdata), value = TRUE, ignore.case=TRUE),
@@ -48,7 +47,6 @@ sub_metadata <- function(metadata) {
 		pdata <- metadata[, colnames(metadata) %in% grep("title", colnames(metadata), value = TRUE), drop=FALSE] ;
 		colnames(pdata) <- "characteristics"
 	} else {
-		#pdata <- pdata[, !names(pdata) %in% "source_name_ch1", drop=FALSE]
 		pdata <- pdata
 	}
 	
@@ -57,7 +55,6 @@ sub_metadata <- function(metadata) {
 	grep("spot", names(pdata), value = TRUE, ignore.case=TRUE), grep("process", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("date", names(pdata), value = TRUE, ignore.case=TRUE), grep("protocol", names(pdata), value = TRUE, ignore.case=TRUE), 
 	grep("accession", names(pdata), value = TRUE, ignore.case=TRUE),
-	#grep("title", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("instrument", names(pdata), value = TRUE, ignore.case=TRUE), grep("library", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("size", names(pdata), value = TRUE, ignore.case=TRUE),grep("platform", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("paired", names(pdata), value = TRUE, ignore.case=TRUE),grep("length", names(pdata), value = TRUE, ignore.case=TRUE),

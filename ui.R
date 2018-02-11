@@ -23,17 +23,12 @@ library(RNASeqPower)
 library(httr)
 library(DESeq2)
 library(iheatmapr)
-#options(shiny.sanitize.error=FALSE)
-#options(shiny.trace=TRUE)
 source("R/dropdownButton.R", local = TRUE)
 
 shinyUI(
 	navbarPage(
 		inverse=TRUE, windowTitle = 'GRIN' 
-		#title= "GRIN",
 		,title= tags$a(href='https://www.ilincs.org',target="_blank", tags$img(src='images/iLINCSnewLogo.png', height="45px",width="55px", style='padding:0px 0px 13px 10px;'))
-		#tags$img(src='images/grin_logo1.png', height="60px",width="40px", style='padding:0px 0px 24px 0px;')),
-		#,title=img(src='images/iLINCSnewLogo.png', style="float:right; padding-right:25px", height="45px",width="55px")
 		,id='grin', selected="datasets"
 	
 		,tabPanel('About', value='about',
@@ -125,8 +120,6 @@ shinyUI(
 		tabPanel('Explore dataset', value='explore',
 			column(3, offset=0.5, 
 				wellPanel(
-					#conditionalPanel("input.geo_acc != ''"
-						#,uiOutput("geo_acc_ui")
 						textInput('geo_acc', h3('Selected study'))
 					,conditionalPanel("input.geo_acc != ''"
 						,actionButton("analysisbtn", "Analyze", icon("th"), 
@@ -136,7 +129,6 @@ shinyUI(
 						,br(), tags$div(class="full_metacol_class", uiOutput("full_metacol"))
 						,tags$head(tags$style(HTML(".full_metacol_class label{font-size: 16px;}")))
 						,br(), shinyjs::hidden(downloadButton('downloadmeta', label = "Download metadata", style="color: #fff; background-color: #337ab7; border-color: #2e6da4"))
-						#,shinyjs::hidden(downloadButton('downloadcounts', label = "Download gene level counts data", style="color: #fff; background-color: #337ab7; border-color: #2e6da4"))
 						,downloadButton('downloadcounts', label = "Download counts table", style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
 						,br(), br(), div(style="font-size: 2px;display: inline-block;vertical-align:right;", radioButtons('download_type_counts', label = "", choices = c("Gene level", "Transcript level"), inline = T))
 						,tags$div(class="heat_prop_class", uiOutput("heat_prop"))
@@ -148,10 +140,7 @@ shinyUI(
 						,div(style="display: inline-block;vertical-align:right;", downloadButton('downloadScroll', label = "Download", style="color: #fff; background-color: #337ab7; border-color: #2e6da4"))
 						,div(style="display: inline-block;vertical-align:right;", radioButtons('download_type_scroll', label = "", choices = c("png", "csv"), inline = T))
 						,uiOutput("pca_prop")
-						#,tags$style(".container_pca { border:1px solid steelblue; margin: 0 auto; font-size:7px; width=200%; height: 200x; overflow-y: scroll; overflow-x: scroll; }")
 						,uiOutput("legend")	
-						#,br(), uiOutput("heatmaptext")
-						#,br(), uiOutput("metadatatext")
 					)
 				)
 			),
@@ -229,7 +218,6 @@ shinyUI(
 			,column(3, offset=0.5, 
 				wellPanel(
 						textInput('geo_acc2', h3('Selected study'))
-						#,uiOutput("geo_acc2_ui")
 					,conditionalPanel("input.geo_acc != ''"
 						,uiOutput("user_meta_prop")
 						,uiOutput("user_ana_type")
@@ -238,9 +226,6 @@ shinyUI(
 						,conditionalPanel("input.signature == 'exp_desg' && input.expr_design=='sig_meta'"
 							,br(), uiOutput("gen_sig_btn_ui"), br()
 						)
-						# ,conditionalPanel("input.signature == 'exp_desg' && input.expr_design=='user_exp_sig'"
-							# ,br(), uiOutput("user_dynamiclink")
-						# )
 						,conditionalPanel("input.signature == 'exp_desg' && input.expr_design=='user_exp_sig'"
 							,br(), actionButton("heatmap_mod", "Show heatmap", style="color: #fff; background-color: #337ab7; border-color: #2e6da4")
 							,bsModal("modalheatmap", "Heatmap of top DE genes (ranked by adjusted p-values)", "heatmap_mod", size = "large"
@@ -323,8 +308,6 @@ shinyUI(
 						,uiOutput("effect")						
 						,uiOutput("depth_ui")
 						,uiOutput("search_gene_ui")
-						#,br(), uiOutput("gene_detect_ui")						
-						#,br(), uiOutput("pow_method")
 					)
 				)
 			)
@@ -349,7 +332,6 @@ shinyUI(
 								,verbatimTextOutput("rank_warn") 
 								,tags$style(type='text/css', '#rank_warn {color: red; font-weight: bold; font-size:18px;}')
 								,DT::dataTableOutput('sig_data', width = 900) %>% withSpinner(type=5)
-								#,br(), shinyjs::hidden(downloadButton('downloadsigdata', label = "Download signatures", style="color: #fff; background-color: #337ab7; border-color: #2e6da4;")), br()
 							)
 							,tabPanel("User specific design",value="exp_desg"
 								,tabsetPanel(id="expr_design"
@@ -378,13 +360,7 @@ shinyUI(
 										,DT::dataTableOutput('designtable', width = 900)										
 									)
 									,tabPanel("Signature",value="user_exp_sig", br()
-										# ,conditionalPanel(
-											# condition="$('html').hasClass('shiny-busy')",
-											# HTML("<div class=\"progress\" style=\"height:25px !important\"><div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:100%\">
-											# <span id=\"bar-text\">Generating signatures...</span></div></div>")
-										# )
 										,DT::dataTableOutput('sigtable', width = 900) %>% withSpinner(type=5)
-										#,br(), shinyjs::hidden(downloadButton('download_user_sigdata', label = "Download signatures", style="color: #fff; background-color: #337ab7; border-color: #2e6da4;"))
 									)
 								)
 							)

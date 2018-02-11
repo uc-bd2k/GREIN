@@ -5,7 +5,6 @@ interactive_heatmap <- function (data_mat, metadata, property, n_genes, clusteri
 		dge <- DGEList(counts=data_mat)
 		dge <- calcNormFactors(dge)
 		dge_cpm <- cpm(dge, log=TRUE)
-		#data_mat <- data_mat[complete.cases(data_mat), ]
 		exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
 		medAbsDev <-apply(exps,1,function(x) median(abs(x)))
 		topGenes <- order(medAbsDev,decreasing=T)

@@ -1,10 +1,9 @@
 
 # load("data/geo_study.RData")
-#load(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",input$geo_acc,"/eset.RData"))
+#load(paste0("/homegeo/datasets/",input$geo_acc,"/eset.RData"))
 
 shinyServer(function(input, output, session) {
 
-	load("data/geo_QuerynBrowser_merged.RData")
 	load("data/geo_QuerynBrowser_merged_jan28_2018.RData")
 	load("data/datatable_to_use.RData")
 	load("data/allColors.rda")
@@ -17,7 +16,6 @@ shinyServer(function(input, output, session) {
 	source("R/complex_heatmap_sig.R", local = TRUE)
 
 	datafrm <- data.frame(datatable_to_use[,-6] ,check.names = FALSE)
-	#datafrm <- datafrm[-which(datafrm[,2]==1),]
 	datafr2 <- datafrm[order(datafrm$Species),]
 	datafr2 <- data.frame('GEO accession'= paste0('<button id="blah" type="button" class="btn btn-primary action-button" value=', datafr2[,1], '>', datafr2[,1], '</button>'),
 					datafr2[,-1], stringsAsFactors=F, check.names=F)
@@ -29,17 +27,16 @@ shinyServer(function(input, output, session) {
 				} else if (input$user_geo!=""){
 					info2 = unlist(lapply(datafr2[,1], function(x) unlist(strsplit(unlist(strsplit(x, ">"))[2], "</button"))[1]))
 					datafr2[grep(toupper(input$user_geo),info2,ignore.case=TRUE),,drop=F]
-					#datafr2[grep(toupper(input$user_geo),datafr2[,1],ignore.case=TRUE),,drop=F]
 				} else {
 					return()
 				}	
 	})
 
 	filenames <- function(){
-		details <- file.info(list.files(path="/opt/raid10/genomics/naim/Thesis/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
+		details <- file.info(list.files(path="/home/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
 		files <- rownames(details[with(details, order(as.POSIXct(mtime))), ])
 		x=gsub("^.*/", "", sub(".txt","",files))
-		dir_name <- list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request", full.names = F, recursive = FALSE)
+		dir_name <- list.dirs(path = "/home/geo/user_geo_request", full.names = F, recursive = FALSE)
 		return(c(dir_name,x))
 	}
 	observeEvent(input$user_geo, {
@@ -49,11 +46,10 @@ shinyServer(function(input, output, session) {
 	})
 	
 	output$study_stat <- renderPlotly({
-		x <- geo_QuerynBrowser_merged[,c(1,4)]
-		x$study_status <- ifelse(geo_QuerynBrowser_merged[,1] %in% datatable_to_use[,1], "Processed", "In progress")
+		x <- geo_QuerynBrowser_merged_jan28_2018[,c(1,4)]
+		x$study_status <- ifelse(geo_QuerynBrowser_merged_jan28_2018[,1] %in% datatable_to_use[,1], "Processed", "In progress")
 		
 		status <- c('Processed','In progress')
-		#processed  <- x[which(x[,3]=='Processed'),c(2,3)]
 		processed  <- datatable_to_use[,3,drop=F]
 		waiting  <- x[which(x[,3]=='In progress'),c(2,3)]
 		hs <- c(nrow(processed[which(processed[,1]=='Homo sapiens'),,drop=F]), nrow(waiting[which(waiting[,1]=='Homo sapiens'),,drop=F])) 
@@ -124,10 +120,8 @@ shinyServer(function(input, output, session) {
 		} else {
 			info2=NULL
 		}
-		#if (is.null(info$value) || info$col != 0) return()
 		if (is.null(info2) || info$col != 0) return()
 		updateTabsetPanel(session, "grin", selected = "explore")
-		#updateTextInput(session, 'geo_acc', value= info$value)
 		updateTextInput(session, 'geo_acc', value= info2)
 	})
 	
@@ -135,7 +129,7 @@ shinyServer(function(input, output, session) {
 	############### organize eset as master data for all purpose ##############
 	
 	collapse_data <- reactive({
-		load(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",toupper(input$geo_acc),"/eset.RData"))
+		load(paste0("/home/geo/datasets/",toupper(input$geo_acc),"/eset.RData"))
 		id <- unlist(lapply(colnames(exprs(eset)), function(x) unlist(strsplit(x, "_"))[2]))
 		pdata <- pData(eset)
 		fdata <- fData(eset)
@@ -152,7 +146,6 @@ shinyServer(function(input, output, session) {
 				genes <- fdata[complete.cases(fdata), 2, drop=F]
 				countsTable <- countsTable[which(rownames(countsTable) %in% rownames(genes)),]
 				rownames(countsTable) <- paste0(rownames(countsTable), " : ", genes[,1])
-				#rownames(countsTable) <- paste0(fData(eset)[,1], " : ", fData(eset)[,2])
 				rownames(pdata) <- colnames(countsTable)
 				sub_pdata <- sub_metadata(pdata)
 				collapse_data <- list(counts=countsTable, pdata=pdata, sub_pdata=sub_pdata, fdata=genes)
@@ -184,11 +177,11 @@ shinyServer(function(input, output, session) {
 	######################## Description ########################
 	
 	geo_rows <- reactive ({
-		load(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",input$geo_acc,"/eset.RData"))
+		load(paste0("/home/geo/datasets/",input$geo_acc,"/eset.RData"))
 		return(length(unique(unlist(lapply(colnames(exprs(eset)), function(x) unlist(strsplit(x,"_"))[2])))))
 	})
 	srr_rows <- reactive ({
-		load(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",input$geo_acc,"/eset.RData"))
+		load(paste0("/home/geo/datasets/",input$geo_acc,"/eset.RData"))
 		return(ncol(exprs(eset)))
 	})
 
@@ -254,7 +247,7 @@ shinyServer(function(input, output, session) {
 			}
 		},
 		content = function(file) {
-			load(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",input$geo_acc,"/eset.RData"))
+			load(paste0("/homegeo/datasets/",input$geo_acc,"/eset.RData"))
 			if(input$full_meta=="yes"){
 				write.csv(collapse_data()$pdata, file)
 			} else {
@@ -329,7 +322,7 @@ shinyServer(function(input, output, session) {
 				rownames(ct) <- unlist(lapply(strsplit(rownames(collapse_data()$counts), ' : ', fixed = TRUE), '[', 1))
 				write.csv(ct, file)
 			} else {
-				setwd(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",input$geo_acc))
+				setwd(paste0("/homegeo/datasets/",input$geo_acc))
 				tr <- read.csv(file="transcripts_counts.csv", header=TRUE, row.names=1)
 				write.csv(tr, file)
 			}
@@ -348,7 +341,7 @@ shinyServer(function(input, output, session) {
 	
 	######################## QC report ########################
 	
-	addResourcePath("datasets", "/opt/raid10/genomics/naim/Thesis/geo/datasets")
+	addResourcePath("datasets", "/home/geo/datasets")
 	output$multiqc <- renderUI({
 		tags$iframe(
 			seamless="seamless",
@@ -360,7 +353,7 @@ shinyServer(function(input, output, session) {
 			paste(toupper(input$geo_acc), '_QCreport.html', sep='') 
 		},
 		content = function(file) {
-			file.copy(paste0("/opt/raid10/genomics/naim/Thesis/geo/datasets/",toupper(input$geo_acc),"/fastqc/multiqc_report.html"), file,overwrite = TRUE)
+			file.copy(paste0("/home/geo/datasets/",toupper(input$geo_acc),"/fastqc/multiqc_report.html"), file,overwrite = TRUE)
 			file.remove("multiqc_report.html")
 		},contentType = "text/html"
 	)
@@ -608,8 +601,6 @@ shinyServer(function(input, output, session) {
 		} 
 	})
 	plotInteractiveHeat <- function(){
-		#if(!is(try(interactive_heatmap (data_mat=collapse_data()$counts, metadata=collapse_data()$sub_pdata, property=input$heat_property, 
-		#n_genes=input$cluster_ngenes, clustering_method=input$clustering_method), silent=TRUE), 'try-error')) warnings("Please try another")
 		interactive_heatmap (data_mat=collapse_data()$counts, metadata=collapse_data()$sub_pdata, property=input$heat_property, 
 		n_genes=input$cluster_ngenes, clustering_method=input$clustering_method)
 	}
@@ -797,19 +788,6 @@ shinyServer(function(input, output, session) {
 			updateTabsetPanel(session, "grin", selected = "analyze")
 		}
     })
-
-	# observeEvent(input$geo_acc, {
-		# output$geo_acc2_ui <- renderUI({	
-			# info = input$datatable_cell_clicked
-			# validate(
-				# need(any(c(!is.null(info$value),input$analysisbtn)), "")
-			# )
-			# selectInput('geo_acc2', h3('Selected study'), choices= c('',datafr$x[,1]),selected= input$geo_acc)
-		# })
-	# })
-	# observeEvent(input$geo_acc2, {
-		# updateSelectInput(session, 'geo_acc',choices= c('',datafr$x[,1]),selected= input$geo_acc2)
-	# })
 
 	observe({
 		info = input$datatable_cell_clicked
@@ -1115,10 +1093,6 @@ shinyServer(function(input, output, session) {
 			signature_data= analysis_mg_wocov(counts=collapse_data()$counts, metadata=metadata, genes=analysis_genes, property=input$analysis_property)
 			ul_sigdata <- data.frame(Name_GeneSymbol=toupper(signature_data$signaturesData_final[,2]), Value_LogDiffExp= signature_data$signaturesData_final[,3], Significance_pvalue=signature_data$signaturesData_final[,4], stringsAsFactors=F)
 			write.table(ul_sigdata, filepath, row.names=FALSE, quote=F, append=F, sep="\t" )
-		# } else if(input$analysis_type=='Multi group with covariate' && input$covar!='') {
-			# signature_data= analysis_mg_withcov(counts=collapse_data()$counts, metadata=metadata, genes=analysis_genes, property=input$analysis_property,
-				# covariate=input$covar)
-			# write.table(signature_data$signaturesData_final[,-1],filepath, row.names=FALSE, quote=F, append=F, sep="\t" )
 		} else {
 			return()
 		}
@@ -1191,19 +1165,6 @@ shinyServer(function(input, output, session) {
 	})
 
 	##### show to ilincs
-	
-	# output$dynamiclink <- renderUI({
-		# if (!is.null(input$analysis_property)&&!is.null(input$input_group1)&&!is.null(input$input_group2)) {
-			# filepath<-paste('/mnt/raid/tmp/iLincs/signatures/',input$geo_acc2, '_signatureData.txt', sep='')
-			# filename<-paste(input$geo_acc2, '_signatureData.txt', sep='')
-			# write.table(sigdata()$signaturesData_final[,-1],filepath, row.names=FALSE, quote=F, sep="\t" )
-			# link<-paste("http://www.ilincs.org/ilincs/signatures/main/upload?source=GRIN&fileName=",input$geo_acc2,"_signatureData.txt",sep='')
-			# tags$a(href=link,paste0("Upload signatures to iLincs"),target="_blank",class="btn btn-primary", icon("paper-plane"))
-			# )
-		# } else {
-			# return()
-		# }
-	# })
 	
 	output$dynamiclink <- renderUI({
 		if(input$analysis_type=='Two group without covariate'){
@@ -1636,10 +1597,6 @@ shinyServer(function(input, output, session) {
 			return(nlev)
 		} else if(input$user_analysis_type=="Two group with covariate"){
 			metad <- design_tab()
-			#analysis_metadata <- metad[which(metad[,"Selected groups"]=="experimental" | metad[,"Selected groups"]=="control"),c("Selected groups",input$user_cov),drop=FALSE]
-			#group <- analysis_metadata[,"Selected groups", drop=F]
-			#covar <- analysis_metadata[,input$user_cov, drop=F]
-			#design_data <- cbind(covar, group)
 			design_data <- metad[,-1,drop=F]
 			design_data[] <- lapply(design_data, factor)
 			nlev <- as.numeric(sapply(design_data[,sapply(design_data, is.factor)], nlevels))
@@ -2077,7 +2034,7 @@ shinyServer(function(input, output, session) {
 		}
 	})
 	observeEvent(input$user_geo,{
-		load("/opt/raid10/genomics/naim/Thesis/geo/geo_QuerynBrowser_merged_jan28_2018.RData")
+		load("/homegeo/geo_QuerynBrowser_merged_jan28_2018.RData")
 		if(substr(toupper(input$user_geo), 1, 3) == "GSE" && nchar(input$user_geo)>=7 && grepl("^[[:digit:]]*$", substr(toupper(input$user_geo), 4, nchar(input$user_geo))) && !toupper(input$user_geo) %in% geo_QuerynBrowser_merged_jan28_2018[,1]){
 			shinyjs::show("warn3")
 		} else {
@@ -2119,29 +2076,29 @@ shinyServer(function(input, output, session) {
 			if(input$user_geo!=''){
 				updateTabsetPanel(session, "grin", selected = "out_cons")
 						
-				if(!file.exists(paste0("/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", toupper(input$user_geo), ".txt")) & 
+				if(!file.exists(paste0("/home/geo/user_geo_request/", toupper(input$user_geo), ".txt")) & 
 					input$user_geo!='' & 
-					!dir.exists(paste0("/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", toupper(input$user_geo)))){
-					system(paste0("touch /opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", toupper(input$user_geo), ".txt"))
+					!dir.exists(paste0("/home/geo/user_geo_request/", toupper(input$user_geo)))){
+					system(paste0("touch /home/geo/user_geo_request/", toupper(input$user_geo), ".txt"))
 				}
 				
 				filenames <- function(){
-					details <- file.info(list.files(path="/opt/raid10/genomics/naim/Thesis/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
+					details <- file.info(list.files(path="/home/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
 					files <- rownames(details[with(details, order(as.POSIXct(mtime))), ])
 					x=gsub("^.*/", "", sub(".txt","",files))
 					return(x)
 				}
 				create_dir <- function(){
-					system(paste0("mkdir /opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", filenames()[1]))
-					system(paste0("chmod -R 777 /opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", filenames()[1]))
-					dir_name <- list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE)
+					system(paste0("mkdir /home/geo/user_geo_request/", filenames()[1]))
+					system(paste0("chmod -R 777 /home/geo/user_geo_request/", filenames()[1]))
+					dir_name <- list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE)
 					return(dir_name)
 				}
 
-				if(length(list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE))==0) {
+				if(length(list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE))==0) {
 					dir_name= create_dir()
 				} else {
-					dir_name= list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE)
+					dir_name= list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE)
 				}
 
 				updateTextInput(session, 'geo_current', value = dir_name)
@@ -2151,7 +2108,7 @@ shinyServer(function(input, output, session) {
 					paste0("There are 5 steps to be completed")
 				})
 							
-				logfilename <- paste0("/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/",dir_name,"/log.txt")
+				logfilename <- paste0("/home/geo/user_geo_request/",dir_name,"/log.txt")
 				fileReaderData <- reactiveFileReader(500, session, logfilename, readLines)
 				output$process_log <- renderText({
 					validate(
@@ -2171,20 +2128,20 @@ shinyServer(function(input, output, session) {
 			updateTabsetPanel(session, "grin", selected = "out_cons")
 
 			filenames <- function(){
-				details <- file.info(list.files(path="/opt/raid10/genomics/naim/Thesis/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
+				details <- file.info(list.files(path="/home/geo/user_geo_request",pattern = ".txt$", recursive = F,full.names=T))
 				files <- rownames(details[with(details, order(as.POSIXct(mtime))), ])
 				x=gsub("^.*/", "", sub(".txt","",files))
 				return(x)
 			}
 			dir_created <- function(){
-				dir_name <- list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE)
+				dir_name <- list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE)
 				return(dir_name)
 			}
 
-			if(length(list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE))==0) {
+			if(length(list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE))==0) {
 				dir_name= dir_created()
 			} else {
-				dir_name= list.dirs(path = "/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/", full.names = F, recursive = FALSE)
+				dir_name= list.dirs(path = "/home/geo/user_geo_request/", full.names = F, recursive = FALSE)
 			}
 
 			updateTextInput(session, 'geo_current', value = dir_name)
@@ -2194,7 +2151,7 @@ shinyServer(function(input, output, session) {
 				paste0("There are 5 steps to be completed")
 			})
 						
-			logfilename <- paste0("/opt/raid10/genomics/naim/Thesis/geo/user_geo_request/",dir_name,"/log.txt")
+			logfilename <- paste0("/home/geo/user_geo_request/",dir_name,"/log.txt")
 			fileReaderData <- reactiveFileReader(500, session, logfilename, readLines)
 			output$process_log <- renderText({
 				validate(

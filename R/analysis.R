@@ -67,8 +67,6 @@
 			design_data <- cbind(covar, group)
 			design_data[] <- lapply(design_data, factor)
 			design <- model.matrix(~., data=design_data)
-			#nonEstimable(design)
-			#is.fullrank(design)
 			ne <- nonEstimable(design)
 			if(!is.null(ne)) {
 				stop(paste("Design matrix not of full rank.  The following coefficients not estimable:\n", paste(ne, collapse = " ")))
@@ -86,15 +84,6 @@
 				y <- estimateGLMTagwiseDisp(y,design)
 				fit <- glmFit(y, design)
 				lrt <-  glmLRT(fit)
-
-				# y <- estimateDisp(y, design, robust=TRUE)
-				# fit <- glmQLFit(y, design, robust=TRUE)
-				# lrt <- glmQLFTest(fit)
-
-				# contrast=rep(0, length(unique(analysis_metadata[,property])))
-				# contrast[which(group1==unique(analysis_metadata[,property]))]=1
-				# contrast[which(group2==unique(analysis_metadata[,property]))]=-1
-				# contrast=c(0,contrast)
 								
 				top_degs <- topTags(lrt, n=nrow(lrt$table))
 				signaturesData_final <- top_degs$table[, -c(4,5,6)]
@@ -137,10 +126,6 @@
 		fit <- glmFit(y,design)
 		lrt <- glmLRT(fit,coef=2:length(levels(group)))
 		
-		# y <- estimateDisp(y, design, robust=TRUE)
-		# fit <- glmQLFit(y, design, robust=TRUE)
-		# lrt <- glmQLFTest(fit, coef=2:length(levels(group)))
-
 		top_degs <- topTags(lrt, n=nrow(lrt$table))
 		signaturesData_final1 <- top_degs$table[, !(names(top_degs$table) %in% c('logCPM', 'LR', 'PValue'))]
 		colnames(signaturesData_final1)[length(colnames(signaturesData_final1))] <- c("Adjusted_pvalue")

@@ -1,18 +1,5 @@
-#' Complex Heatmap function
-#'
-#' This function allows user to draw complex heatmap with options: "Fit in Screen" and "Scrollable" along with different clustering methods using ComplexHeatmap package.
-#' @param data_mat Data matrix where genes are row names and samples are column names. 
-#' @param metadata Metadata associated with the data matrix where samples are the row names. The row names of the metadata need to be matched to the column names of the data matrix. 
-#' @param property Property or the variable of interest from the metadata.
-#' @param clustering_method Which method to use for clustering. Methods are: "precomp_GIMM", "Clustering by groups", "Pearson Correlation", "Kendall", "Spearman", and "Euclidean". 
-#' "precomp_GIMM" is the precomputed GIMM clustering that is saved in the working directory. Default clustering method is "Pearson Correlation".
-#' @param type Type of heatmap. There are two types: Fit in Screen and Scrollable. Default is "Fit in Screen". 
-#' @export 
-#' @examples
-#' load("data/EDS-1013eset.RData"); assign('eset', get("EDS-1013eset"));
-#' complex_heatmap(property="ER",data_mat=exprs(eset), metadata=pData(eset), clustering_method="Pearson Correlation", type="Fit in Screen")
 
-	complex_heatmap_sig <- function (data_mat, metadata, property, n_genes, clustering_method, type="Fit in Screen") {
+	complex_heatmap_sig <- function (data_mat, metadata, property, n_genes, clustering_method, type) {
 
 		if(!is.null(property)) {
 			
@@ -133,7 +120,6 @@
 				top_annotation <- HeatmapAnnotation(metadata_cg, which="column", width = unit(1,"mm"),	col = colr, 
 				annotation_legend_param=list(title_gp = gpar(fontsize = 12), labels_gp = gpar(fontsize = 9),
 				title_position = "topcenter", width = unit(5, "mm"),
-				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1} 
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}				
 				)) 
 				
@@ -163,7 +149,6 @@
 				top_annotation <- HeatmapAnnotation(metadata, which="column", width = unit(1,"mm"), col = colr, 
 				annotation_legend_param=list(title_gp = gpar(fontsize = 12), labels_gp = gpar(fontsize = 9), 
 				title_position = "topcenter", width = unit(5, "mm"), 
-				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1}
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				))
 
@@ -184,7 +169,6 @@
 				top_annotation <- HeatmapAnnotation(metadata, which="column", width = unit(1,"mm"), col = colr, 
 				annotation_legend_param=list(title_gp = gpar(fontsize = 12), labels_gp = gpar(fontsize = 9), 
 				title_position = "topcenter", width = unit(5, "mm"), 
-				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1}
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				))
 
