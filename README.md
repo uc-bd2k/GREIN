@@ -11,4 +11,4 @@ GRIN provides the flexibility to analyze and create ilincs compliant signatures 
 In addition, GRIN produces publication-ready graphs and let the user to download all the analysis results. By accumulating the processed 
 GEO RNA-Seq datasets in a common platform, we present GRIN as a prominent choice to the practitioner for analyzing GEO RNA-Seq datasets.
 
-<center>![GEO RNA-seq pipeline workflow](./www/images/About_steps2.png)</center>
+![GEO RNA-seq pipeline workflow](../master/www/images/About_steps2.png)
