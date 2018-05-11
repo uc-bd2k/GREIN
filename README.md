@@ -14,3 +14,8 @@ In addition, GREIN produces publication-ready graphs and let the user to downloa
 GEO RNA-Seq datasets in a common platform, we present GREIN as a prominent choice to the practitioner for analyzing GEO RNA-Seq datasets.
 
 ![GEO RNA-seq pipeline workflow](../master/www/images/About_steps2.png)
+
+---
+## Issues and bug reports
+
+Please submit any bug reports, issues, or comments here: https://github.com/uc-bd2k/GREIN/issues
