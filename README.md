@@ -2,6 +2,10 @@
 ---
 # GREIN : GEO RNA-seq experiments interactive navigator for Processing, Exploring, and Analyzing GEO RNA-seq Datasets
 
+---
+GREIN is accessible at:   
+http://www.ilincs.org/apps/GREIN/
+---
 The Gene Expression Omnibus ([GEO](https://www.ncbi.nlm.nih.gov/geo/)) is a public repository of gene expression data 
 that hosts more than 6,000 RNA-Seq datasets and this number is increasing. Most of these samples are deposited in raw sequencing 
 format which needs to be downloaded and processed. With an aim to transform all these datasets in an analysis-ready format, 
