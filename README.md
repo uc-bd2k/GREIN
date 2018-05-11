@@ -1,4 +1,4 @@
-![](../master/www/images/logo1c_icon.png | width=100)
+![](../master/www/images/logo1c_icon.png)
 ---
 # GREIN : GEO RNA-seq experiments interactive navigator for Processing, Exploring, and Analyzing GEO RNA-seq Datasets
 
