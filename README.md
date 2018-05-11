@@ -1,3 +1,5 @@
+![GEO RNA-seq pipeline workflow](../master/www/images/logo1c_icon.png)
+---
 # GREIN : GEO RNA-seq experiments interactive navigator for Processing, Exploring, and Analyzing GEO RNA-seq Datasets
 
 The Gene Expression Omnibus ([GEO](https://www.ncbi.nlm.nih.gov/geo/)) is a public repository of gene expression data 
