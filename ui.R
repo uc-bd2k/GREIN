@@ -27,8 +27,8 @@ source("R/dropdownButton.R", local = TRUE)
 
 shinyUI(
 	navbarPage(
-		inverse=TRUE, windowTitle = 'GRIN' 
-		,title= tags$a(href='https://www.ilincs.org',target="_blank", tags$img(src='images/iLINCSnewLogo.png', height="45px",width="55px", style='padding:0px 0px 13px 10px;'))
+		inverse=TRUE, windowTitle = 'GREIN' 
+		,title= tags$a(href='https://shiny.ilincs.org/grein',target="_blank", tags$img(src='images/logo1c.png', height="40px",width="100px", style='margin: -20px 0px;'))
 		,id='grin', selected="datasets"
 	
 		,tabPanel('About', value='about',
@@ -70,8 +70,8 @@ shinyUI(
 			,column(10,
 				wellPanel(
 					includeMarkdown("www/description1.Rmd")
-					,tags$img(src='images/About_steps.png',height="500px",width="800px", style='display: block; margin-left: auto; margin-right: auto;')
-					,includeMarkdown("www/description2.Rmd")
+					#,tags$img(src='images/About_steps.png',height="500px",width="800px", style='display: block; margin-left: auto; margin-right: auto;')
+					#,includeMarkdown("www/description2.Rmd")
 				)
 			)
 			,column(1

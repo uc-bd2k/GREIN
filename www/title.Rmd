@@ -4,4 +4,4 @@ output: html_document
 ---
 
 <center> <h2>
-<span style="color:blue">**GRIN** : </span><span style="color:darkblue">GEO RNA-seq Interactive Navigator</span></h2> </center>
+<span style="color:blue">**GREIN** : </span><span style="color:darkblue">GEO RNA-seq Experiments Interactive Navigator</span></h2> </center>
