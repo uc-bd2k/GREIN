@@ -22,8 +22,7 @@ GEO RNA-Seq datasets in a common platform, we present GREIN as a prominent choic
 ---
 If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
 
-* Al Mahi,N. *et al* (2018) GREIN: An interactive web platform for re-analyzing GEO RNA-seq data
-bioRxiv 326223; doi: https://doi.org/10.1101/326223
+* Al Mahi,N. *et al* (2018) GREIN: An interactive web platform for re-analyzing GEO RNA-seq data. bioRxiv 326223; doi: https://doi.org/10.1101/326223
 
 ---
 ## Issues and bug reports
