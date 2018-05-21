@@ -26,6 +26,50 @@ If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
 
 ---
 ## Docker instructions
+
+### Installation of Docker
+
+Ubuntu: follow [the instructions](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) to get Docker CE for Ubuntu.
+
+Mac: follow [the instructions](https://store.docker.com/editions/community/docker-ce-desktop-mac) to install [`the Stable verion of Docker CE`](https://download.docker.com/mac/stable/Docker.dmg) on Mac.
+
+Windows: follow [the instructions](https://docs.docker.com/toolbox/toolbox_install_windows/) to install [`Docker Tookbox`](https://download.docker.com/win/stable/DockerToolbox.exe) on Windows.
+
+---
+### Download and run the docker container
+To obtain the docker image and run the container,
+```
+[sudo] docker pull ucbd2k/grein
+```
+Linux users may need to use `sudo` to run Docker.
+
+To run the container execute the following command:
+
+```
+[sudo] docker run -d -p <an available port>:8787 ucbd2k/grein
+```
+Typically one can use port 8787 if not already used by another application. In that case the commad is
+
+```
+[sudo] docker run -d -p 8787:8787 ucbd2k/grein
+```
+
+
+First make sure that port 8787 is free to use for the rstudio, (Typically rstudio dockers run on this port, if this port is free ignore the rest of this section). 
+You can stop and kill any othe docker containers on this port by
+
+```
+[sudo] docker stop <container ID> && docker rm <container ID>
+```
+To know the container ID run this command:
+```
+docker ps -a
+```
+
+To start GREIN, open a browser and type in the address bar ``<Host URL>:<available port as specified>``. For example `http://localhost:8787` on Mac or Linux systems when 8787 port is used.
+
+Host URL on Ubuntu and Mac is `localhost`, if accessed locally. On Windows, the IP is shown when Docker is launched by double-clicking the Docker Quickstart Terminal icon on desktop, or it can be obtained from the output of `docker-machine ls` in the interactive shell window.
+
 ---
 ## Issues and bug reports
 
