@@ -1,16 +1,24 @@
 
-interactive_heatmap <- function (data_mat, metadata, property, n_genes, clustering_method) {
+interactive_heatmap <- function (data_mat, metadata, property, n_genes, clustering_method, signature=FALSE) {
 
 	if(!is.null(property)) {
-		dge <- DGEList(counts=data_mat)
-		dge <- calcNormFactors(dge)
-		dge_cpm <- cpm(dge, log=TRUE)
-		exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
-		medAbsDev <-apply(exps,1,function(x) median(abs(x)))
-		topGenes <- order(medAbsDev,decreasing=T)
-		topGenes= topGenes[!is.na(topGenes)]
-
-		expr_data<- data.matrix(exps[topGenes,,drop=F])
+		if(signature){
+			dge <- DGEList(counts=data_mat)
+			dge_cpm <- cpm(dge, log=TRUE)
+			exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
+			expr_data<- data.matrix(exps)
+		} else {
+			# dge <- DGEList(counts=data_mat)
+			# #dge <- calcNormFactors(dge)
+			# dge_cpm <- cpm(dge, log=TRUE)
+			# exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
+			# medAbsDev <-apply(exps,1,function(x) median(abs(x)))
+			# topGenes <- order(medAbsDev,decreasing=T)
+			# topGenes= topGenes[!is.na(topGenes)]		
+			# expr_data<- data.matrix(exps[topGenes,,drop=F])
+			expr_data <- data_mat
+		}
+		
 		expr_data_in <- expr_data[1:n_genes,,drop=F]
 		
 		if(n_genes>1) {
@@ -25,9 +33,14 @@ interactive_heatmap <- function (data_mat, metadata, property, n_genes, clusteri
 			expr_data_in <- expr_data_in
 		}
 		
-		expr_data_in[expr_data_in>2]<-2
-		expr_data_in[expr_data_in<(-2)]<-(-2)
-		
+		if((sum(apply(expr_data_in,2,function(x) sum(x>-2 & x<2)))/length(expr_data_in))>=0.5) {
+			expr_data_in[expr_data_in>2]<-2
+			expr_data_in[expr_data_in<(-2)]<-(-2)
+		} else {
+			expr_data_in[expr_data_in>4]<-4
+			expr_data_in[expr_data_in<(-4)]<-(-4)
+		}
+		metadata_t <- metadata[,property,drop=FALSE]
 		metadata <- metadata[,property,drop=FALSE]
 		metadata[is.na(metadata)] <- "NA"
 		metadata[] <- lapply( metadata, factor)
@@ -70,11 +83,9 @@ interactive_heatmap <- function (data_mat, metadata, property, n_genes, clusteri
 		if (clustering_method=="Pearson correlation") {
 			hr <- hclust(as.dist(1-cor(t(expr_data_in), method="pearson")))
 			hc <- hclust(as.dist(1-cor(expr_data_in, method="pearson")))
-				
+			
 			main_heatmap(expr_data_in, name = "Expression", colors=c("blue","black","yellow")) %>%
-			#add_row_clustering(method = "hclust", clust_dist=hr(expr_data_in)) %>%
 			add_col_annotation(metadata,  side = "top", colors=colr) %>%
-			#add_col_clustering(method = "hclust", clust_dist=hc(expr_data_in), side = "top") %>%
 			add_col_labels(side="bottom") %>%
 			add_row_dendro(hr) %>%
 			add_col_dendro(hc)

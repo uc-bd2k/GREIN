@@ -6,4 +6,4 @@ output: html_document
 <center> <h4>
 <span style="color:#337ab7">Method of constructing a signature</span></h4> </center>
 
-Genewise negative binomial generalized log-linear models with quasi-likelihood tests and genewise exact tests from bioconductor package [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) are used to calculate differential expression between groups with and without covariates respectively. Control group is considered as reference in computing log of fold change and p-value is adjusted for multiple comparison. 
+Genewise negative binomial generalized log-linear models with quasi-likelihood tests and genewise exact tests from bioconductor package [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) are used to calculate differential expression between groups with and without covariates respectively. Control group is considered as reference in computing log of fold change and p-values are adjusted for multiple comparison. 

@@ -1,18 +1,20 @@
 
-	complex_heatmap <- function (data_mat, metadata, property, n_genes, clustering_method, type) {
+	complex_heatmap <- function (data_mat, metadata, property, n_genes, clustering_method="Pearson correlation", type="Fit in Screen") {
 
 		if(!is.null(property)) {
 			
-			dge <- DGEList(counts=data_mat)
-			dge <- calcNormFactors(dge)
-			dge_cpm <- cpm(dge, log=TRUE)
-			exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
-			medAbsDev <-apply(exps,1,function(x) median(abs(x)))
-			topGenes <- order(medAbsDev,decreasing=T)
-			topGenes= topGenes[!is.na(topGenes)]
+			# dge <- DGEList(counts=data_mat)
+			# #dge <- calcNormFactors(dge)
+			# dge_cpm <- cpm(dge, log=TRUE)
+			# #data_mat <- data_mat[complete.cases(data_mat), ]
+			# exps= as.matrix(dge_cpm) - rowMeans(as.matrix(dge_cpm), na.rm=T)
+			# medAbsDev <-apply(exps,1,function(x) median(abs(x)))
+			# topGenes <- order(medAbsDev,decreasing=T)
+			# topGenes= topGenes[!is.na(topGenes)]
 
-			expr_data<- data.matrix(exps[topGenes,,drop=F])
-			expr_data_in <- expr_data[1:n_genes,,drop=F]
+			# expr_data<- data.matrix(exps[topGenes,,drop=F])
+			# expr_data_in <- expr_data[1:n_genes,,drop=F]
+			expr_data_in <- data_mat[1:n_genes,,drop=F]
 			
 			if(n_genes>1) {
 				if(length(which(apply(expr_data_in,1, function(x) length(unique(x)))==1))>0) {
@@ -26,9 +28,14 @@
 				expr_data_in <- expr_data_in
 			}
 			
-			expr_data_in[expr_data_in>2]<-2
-			expr_data_in[expr_data_in<(-2)]<-(-2)
-			
+			if((sum(apply(expr_data_in,2,function(x) sum(x>-2 & x<2)))/length(expr_data_in))>=0.5) {
+				expr_data_in[expr_data_in>2]<-2
+				expr_data_in[expr_data_in<(-2)]<-(-2)
+			} else {
+				expr_data_in[expr_data_in>4]<-4
+				expr_data_in[expr_data_in<(-4)]<-(-4)
+			}
+
 			metadata <- metadata[,property,drop=FALSE]
 			metadata[is.na(metadata)] <- "NA"
 			metadata[] <- lapply( metadata, factor)
@@ -58,9 +65,11 @@
 				} else {
 					if("NA" %in% unique(as.character(metadata[,i]))) {
 						mis_num = grep("NA", unique(as.character(metadata[,i])))
+						#colr[[i]][mis_num] = allColors[1]
 						colr[[i]]=setNames(c(allColors[seq_along(unique(as.character(metadata[,i]))[-mis_num])], "gray"), 
 											c(unique(as.character(metadata[,i]))[-mis_num], "NA"))
 					} else {
+						#colr[[i]]=setNames(allColors[seq_along(sort(unique(as.character(metadata[,i]))))], sort(unique(as.character(metadata[,i]))))
 						colr[[i]]=setNames(allColors[seq_along(levels(as.factor(metadata[,i])))], levels(as.factor(metadata[,i])))
 					}
 				}
@@ -87,7 +96,7 @@
 			heat <- function(data_mat,metadata,cluster_columns,cluster_rows, top_annotation,col_fontsize,clustering_distance_columns="pearson", clustering_distance_rows="pearson") {
 					
 				if (type=="Fit in Screen") {
-					ht <- Heatmap(data_mat,  name = "Expression",  col = colorRamp2(c(-2,0,2), c("blue", "black","yellow")),
+					ht <- Heatmap(data_mat,  name = "Expression",  col = colorRamp2(c(min(data_mat),0,max(data_mat)), c("blue", "black","yellow")),
 						cluster_columns = cluster_columns, cluster_rows = cluster_rows , column_dend_reorder = FALSE,
 						clustering_distance_columns = clustering_distance_columns, clustering_distance_rows = clustering_distance_rows,
 						show_row_names = FALSE, show_column_names = if(length(colnames(data_mat))<100) {TRUE} else {FALSE},
@@ -97,7 +106,7 @@
 						legend_width = unit(5, "cm"), title_position = "topcenter"))
 					draw(ht,padding = unit(c(1,10,4,rside_length(property)), "mm"), heatmap_legend_side = "top", annotation_legend_side = "top")
 				} else {
-					ht <- Heatmap(data_mat,  name = "Expression",  col = colorRamp2(c(-2,0,2), c("blue", "black","yellow")),
+					ht <- Heatmap(data_mat,  name = "Expression",  col = colorRamp2(c(min(data_mat),0,max(data_mat)), c("blue", "black","yellow")),
 						cluster_columns = cluster_columns, cluster_rows = cluster_rows , column_dend_reorder = FALSE,
 						clustering_distance_columns = clustering_distance_columns, clustering_distance_rows = clustering_distance_rows,
 						show_row_names = TRUE, row_names_side = "right",row_names_gp = gpar(fontsize = 10), row_names_max_width = unit(8, "cm"),
@@ -122,6 +131,7 @@
 
 				top_annotation <- HeatmapAnnotation(metadata_cg, which="column", width = unit(1,"mm"),
 				col = colr, annotation_legend_param=list(title_gp = gpar(fontsize = 14), 
+				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1} 
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				)) 
 				
@@ -150,6 +160,7 @@
 				
 				top_annotation <- HeatmapAnnotation(metadata, which="column", width = unit(1,"mm"),
 				col = colr, annotation_legend_param=list(title_gp = gpar(fontsize = 14), 
+				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1}
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				))
 
@@ -169,6 +180,7 @@
 				
 				top_annotation <- HeatmapAnnotation(metadata, which="column", width = unit(1,"mm"),
 				col = colr, annotation_legend_param=list(title_gp = gpar(fontsize = 14), 
+				#nrow= if(type=="Fit in Screen") {nrow} else {nrow}, ncol= if(type=="Fit in Screen") {NULL} else {1}
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				))
 
@@ -188,6 +200,7 @@
 				
 				top_annotation <- HeatmapAnnotation(metadata, which="column", width = unit(1,"mm"),
 				col = colr, annotation_legend_param=list(title_gp = gpar(fontsize = 14), 
+				#nrow= if(type=="Fit in Screen") {nrow} else {NULL}, ncol= if(type=="Fit in Screen") {NULL} else {1}
 				nrow= if(n_chr>30) {NULL} else {nrow}, ncol= if(n_chr>30) {1} else {NULL}
 				))
 

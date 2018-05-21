@@ -1,0 +1,28 @@
+---
+title: ""
+output: html_document
+---
+
+<h4>
+<span style="color:#337ab7">Download all the processed data</span></h4>
+
+You can download gene counts, transcript counts, metadata, and gene annotation of all the processed data in HDF5 format.  
+Please click the following links to download:
+
+ * [**Gene counts data**](http://www.ilincs.org/tmp/GREIN_gene_counts.h5)
+ * [**Transcript counts data**](http://www.ilincs.org/tmp/GREIN_transcript_counts.h5)
+ * [**Metadata**](http://www.ilincs.org/tmp/GREIN_metadata.h5)
+ * [**Gene annotation**](http://www.ilincs.org/tmp/GREIN_fdata.h5)
+ 
+ 
+Once downloaded, you can run the following commands in ***R*** to extract datasets.
+
+```{r}
+library(rhdf5)
+
+metadata <- h5read("GREIN_metadata.h5","metadata")
+geneCounts <- h5read("GREIN_gene_counts.h5","gene_counts")
+transcript_counts <- h5read("GREIN_transcript_counts.h5","transcript_counts")
+feature_data <- h5read("GREIN_fdata.h5","fdata")
+
+```

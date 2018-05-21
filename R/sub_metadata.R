@@ -12,6 +12,7 @@ sub_metadata <- function(metadata) {
 	grep("spot", names(pdata), value = TRUE, ignore.case=TRUE), grep("process", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("date", names(pdata), value = TRUE, ignore.case=TRUE), grep("protocol", names(pdata), value = TRUE, ignore.case=TRUE), 
 	grep("accession", names(pdata), value = TRUE, ignore.case=TRUE),
+	#grep("title", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("instrument", names(pdata), value = TRUE, ignore.case=TRUE), grep("library", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("size", names(pdata), value = TRUE, ignore.case=TRUE),grep("platform", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("paired", names(pdata), value = TRUE, ignore.case=TRUE),grep("length", names(pdata), value = TRUE, ignore.case=TRUE),
@@ -47,6 +48,7 @@ sub_metadata <- function(metadata) {
 		pdata <- metadata[, colnames(metadata) %in% grep("title", colnames(metadata), value = TRUE), drop=FALSE] ;
 		colnames(pdata) <- "characteristics"
 	} else {
+		#pdata <- pdata[, !names(pdata) %in% "source_name_ch1", drop=FALSE]
 		pdata <- pdata
 	}
 	
@@ -55,20 +57,21 @@ sub_metadata <- function(metadata) {
 	grep("spot", names(pdata), value = TRUE, ignore.case=TRUE), grep("process", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("date", names(pdata), value = TRUE, ignore.case=TRUE), grep("protocol", names(pdata), value = TRUE, ignore.case=TRUE), 
 	grep("accession", names(pdata), value = TRUE, ignore.case=TRUE),
+	#grep("title", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("instrument", names(pdata), value = TRUE, ignore.case=TRUE), grep("library", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("size", names(pdata), value = TRUE, ignore.case=TRUE),grep("platform", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("paired", names(pdata), value = TRUE, ignore.case=TRUE),grep("length", names(pdata), value = TRUE, ignore.case=TRUE),
 	grep("provider", names(pdata), value = TRUE, ignore.case=TRUE), grep("^id$", names(pdata), value = TRUE, ignore.case=TRUE),
-	grep("status", names(pdata), value = TRUE, ignore.case=TRUE),
-	grep("name", names(pdata), fixed = TRUE),grep("sex", names(pdata), value = TRUE, ignore.case=TRUE),
-	"Run","avgLength","spots","Model","platform_id","bases","size_MB","download_path","Experiment", "Sample","BioSample",	
+	grep("status", names(pdata), value = TRUE, ignore.case=TRUE), grep("id", names(pdata), value = TRUE, ignore.case=TRUE),
+	grep("name", names(pdata), fixed = TRUE),grep("sex", names(pdata), value = TRUE, ignore.case=TRUE),grep("Sample", names(pdata), value = TRUE, ignore.case=TRUE),
+	"Run","avgLength","spots","Model","platform_id","bases","size_MB","download_path","Experiment", "Sample","BioSample","barcode","sample id",	
 	"SampleName","RunHash","ReadHash"), drop=FALSE]
 	
 	if (dim(pdata_final)[2]>=1 & "source_name_ch1" %in% names(pdata_final)) {
-		pdata_final <- pdata_final[, -which(colnames(pdata_final)=="title"), drop=F]
+		pdata_final <- pdata_final[, which(colnames(pdata_final)!="title"), drop=F]
 		colnames(pdata_final)[which(names(pdata_final) %in% "source_name_ch1")] <- "characteristics"
 		if(ncol(pdata_final[!duplicated(as.list(toupper(pdata_final)))])!= ncol(pdata_final)){
-			pdata_final <- pdata_final[,-which(colnames(pdata_final)=="characteristics"), drop=F]
+			pdata_final <- pdata_final[,which(colnames(pdata_final)!="characteristics"), drop=F]
 		} else {
 			pdata_final <- pdata_final
 		}
@@ -77,7 +80,7 @@ sub_metadata <- function(metadata) {
 	}
 	
 	if ("title" %in% names(pdata_final) & "characteristics" %in% names(pdata_final)){
-		pdata_final <- pdata_final[, -which(colnames(pdata_final)=="title"), drop=F]
+		pdata_final <- pdata_final[, which(colnames(pdata_final)!="title"), drop=F]
 	} else if("title" %in% names(pdata_final) & !("characteristics" %in% names(pdata_final))) {
 		colnames(pdata_final)[which(names(pdata_final) %in% "title")] <- "characteristics"
 		pdata_final <- pdata_final
@@ -86,7 +89,7 @@ sub_metadata <- function(metadata) {
 	}
 	
 	if ("title" %in% names(pdata_final) & "characteristics" %in% names(pdata_final)){
-		pdata_final <- pdata_final[, -which(colnames(pdata_final)=="title"), drop=F]
+		pdata_final <- pdata_final[, which(colnames(pdata_final)!="title"), drop=F]
 	} else {
 		pdata_final <- pdata_final
 	}
