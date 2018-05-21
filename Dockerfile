@@ -1,11 +1,13 @@
-FROM shiny.ilincs.org:5000/shiny:3.3.1-1.5.1
+#FROM shiny.ilincs.org:5000/shiny:3.3.1-1.5.1
 #FROM shiny.ilincs.org:5000/shiny
+FROM rocker/shiny
 COPY . /srv/shiny-server
 
 # RUN apt-get update
 # RUN apt-get install libmariadb-client-lgpl-dev
 # RUN R -e "source('https://bioconductor.org/biocLite.R'); biocLite('Biobase'); biocLite('ComplexHeatmap'); biocLite('circlize'); install.packages('shinyjs'); install.packages('shinyBS'); install.packages('RMySQL'); install.packages('reshape2'); "
 RUN apt-get update
+RUN apt-get install -y libssl-dev libssh2-1-dev
 RUN apt-get install -y libmariadb-client-lgpl-dev
 RUN apt-get install -y libxml2-dev libx11-dev
 RUN apt-get install -y libglu1-mesa-dev freeglut3-dev mesa-common-dev
