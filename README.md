@@ -20,7 +20,7 @@ GEO RNA-Seq datasets in a common platform, we present GREIN as a prominent choic
 ![GEO RNA-seq pipeline workflow](../master/www/images/About_steps2.png)
 
 ---
-If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
+## If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
 
 * Al Mahi,N. *et al* (2018) GREIN: An interactive web platform for re-analyzing GEO RNA-seq data. bioRxiv 326223; doi: https://doi.org/10.1101/326223
 
@@ -33,7 +33,7 @@ Ubuntu: follow [the instructions](https://docs.docker.com/engine/installation/li
 
 Mac: follow [the instructions](https://store.docker.com/editions/community/docker-ce-desktop-mac) to install [`the Stable verion of Docker CE`](https://download.docker.com/mac/stable/Docker.dmg) on Mac.
 
-Windows: follow [the instructions](https://docs.docker.com/toolbox/toolbox_install_windows/) to install [`Docker Tookbox`](https://download.docker.com/win/stable/DockerToolbox.exe) on Windows.
+Windows: follow [the instructions](https://docs.docker.com/toolbox/toolbox_install_windows/) to install [`Docker Toolbox`](https://download.docker.com/win/stable/DockerToolbox.exe) on Windows.
 
 ---
 ### Download and run the docker container
