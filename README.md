@@ -64,11 +64,12 @@ To know the container ID run this command:
 docker ps -a
 ```
 
-Before starting GREIN, please download the github repository first. We have put an example dataset (GSE100075) in the `data` folder.
-You should keep all the processed datasets with corresponding files in this folder. You can process GEO RNA-seq daatsets using our 
+Before starting GREIN, please download the github repository first. We have put an example dataset (GSE22666) in the `data` folder.
+You should keep all the processed datasets with corresponding files (eset.RData, multiqc_report.html, and transcripts.RData) in this folder. You can process GEO RNA-seq daatsets using our 
 [GREP2](https://github.com/uc-bd2k/GREP2) pipeline. If you want to process data on the fly using GREIN, then you will have to run the GREP2 pipeline
-in the backend which will grab the GEO accession ID from the [user_geo_request](https://github.com/uc-bd2k/GREIN/tree/master/data/user_geo_request)
-folder. GREIN will look for the log file within this directory.
+in the backend (run `GEO_data_processing.R` for any new dataset you want to process and change the parameters accordingly) which will grab the GEO accession ID from
+the [user_geo_request](https://github.com/uc-bd2k/GREIN/tree/master/data/user_geo_request) folder. GREIN will look for the log file within
+this directory. After you process the data, you will have to run `after_processing.R` which will update the datatable used by GREIN.
 
 To start GREIN, open a browser and type in the address bar ``<Host URL>:<available port as specified>``. For example `http://localhost:3838` on Mac or Linux systems when 3838 port is used.
 
