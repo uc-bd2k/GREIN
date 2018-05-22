@@ -15,6 +15,7 @@ shinyServer(function(input, output, session) {
 		return(paste('<iframe style="height:600px; width:100%" src="', pdfurl, '"></iframe>', sep = ""))
 	})
 		
+	
 	####======== main data for GRIN datatable and search in section 1 ========####
 	datafr2 <- as.data.frame(read_feather(paste0("data/GREIN_datatable.csv")),stringsAsFactors=F)
 	all_samples <- as.data.frame(read_feather(paste0("data/all_samples_feather.csv")),stringsAsFactors=F, check.names=F)
@@ -56,7 +57,7 @@ shinyServer(function(input, output, session) {
 	observeEvent(input$user_geo,{
 		info2 = unlist(lapply(datafr$x[,1], function(x) unlist(strsplit(unlist(strsplit(x, ">"))[2], "</button"))[1]))
 		user_geo = trimws(input$user_geo, which ="both")
-		if(toupper(user_geo)=='' || toupper(user_geo) %in% info2 || toupper(user_geo) %in% filenames() || !toupper(user_geo) %in% geo_QuerynBrowser_merged_jan28_2018[,1] || nchar(user_geo)<7 || substr(toupper(user_geo), 1, 3) != "GSE" || !grepl("^[[:digit:]]*$", substr(toupper(user_geo), 4, nchar(user_geo)))) {
+		if(toupper(user_geo)=='' || toupper(user_geo) %in% info2 || toupper(user_geo) %in% filenames() || nchar(user_geo)<7 || substr(toupper(user_geo), 1, 3) != "GSE" || !grepl("^[[:digit:]]*$", substr(toupper(user_geo), 4, nchar(user_geo)))) {
 			shinyjs::hide("start_process")
 		} else {
 			shinyjs::show("start_process")
@@ -113,7 +114,7 @@ shinyServer(function(input, output, session) {
 	})
 	observeEvent(input$user_geo,{
 		user_geo = trimws(input$user_geo, which ="both")
-		if(substr(toupper(user_geo), 1, 3) == "GSE" && nchar(user_geo)>=7 && grepl("^[[:digit:]]*$", substr(toupper(user_geo), 4, nchar(user_geo))) && !toupper(user_geo) %in% geo_QuerynBrowser_merged_jan28_2018[,1]){
+		if(substr(toupper(user_geo), 1, 3) == "GSE" && nchar(user_geo)>=7 && grepl("^[[:digit:]]*$", substr(toupper(user_geo), 4, nchar(user_geo)))){
 			shinyjs::show("warn3")
 		} else {
 			shinyjs::hide("warn3")
@@ -131,7 +132,7 @@ shinyServer(function(input, output, session) {
     observeEvent(input$user_geo,{		
         info2 = unlist(lapply(datafr$x[,1], function(x) unlist(strsplit(unlist(strsplit(x, ">"))[2], "</button"))[1]))
 		user_geo = trimws(input$user_geo, which ="both")
-        if(toupper(user_geo) %in% geo_QuerynBrowser_merged_jan28_2018[,1] & !toupper(user_geo) %in% info2 & !toupper(user_geo) %in% filenames()){
+        if(!toupper(user_geo) %in% info2 & !toupper(user_geo) %in% filenames()){
             shinyjs::show("warn5")
         } else {
             shinyjs::hide("warn5")
@@ -187,7 +188,7 @@ shinyServer(function(input, output, session) {
 	output$sample_stat <- renderPlotly({
 		x=datatable_to_use[,c(2,3)]
 		species <- c('Homo sapiens','Mus musculus', 'Rattus norvegicus') 
-		samples <- c(sum(x[which(x[,2]=='Homo sapiens'),1]), sum(x[which(x[,2]=='Mus musculus'),1]), sum(x[which(x[,2]=='Rattus norvegicus'),1]))
+		samples <- c(length(x[which(x[,2]=='Homo sapiens'),1]), length(x[which(x[,2]=='Mus musculus'),1]), length(x[which(x[,2]=='Rattus norvegicus'),1]))
 		dat_sam <- data.frame("Species"=as.factor(species), "Samples"=as.numeric(samples))		
 		plot_ly(dat_sam, labels = ~Species, values = ~samples, type = 'pie',
 			textposition = 'inside',
@@ -204,7 +205,7 @@ shinyServer(function(input, output, session) {
 	####======== Section 3: sample density&histogram ========####
 	output$samplesize_den <- renderPlotly({
 
-		df <- data.frame(xlog=log10(datafr2[,2]),x= datafr2[,2])
+		df <- data.frame(xlog=log10(as.numeric(datafr2[,2])),x= as.numeric(datafr2[,2]))
 		p <- ggplot(df, aes(x=xlog, text=paste0("no. of samples: ",x))) + 
 		  geom_histogram(alpha = 0.7, fill = "darkblue") + 
 		  #geom_density(fill = "white", alpha = 0.5) + 

@@ -46,12 +46,12 @@ Linux users may need to use `sudo` to run Docker.
 To run the container execute the following command:
 
 ```
-[sudo] docker run -p <an available port>:3838 ucbd2k/grein
+[sudo] docker run -d -p <an available port>:3838 ucbd2k/grein
 ```
 Typically one can use port 3838 if not already used by another application. In that case the commad is
 
 ```
-[sudo] docker run -p 3838:3838 ucbd2k/grein
+[sudo] docker run -d -p 3838:3838 ucbd2k/grein
 ```
 
 First make sure that port 3838 is free to use. If not free, you can stop and kill any othe docker containers on this port by

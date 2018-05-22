@@ -5,7 +5,7 @@ library(RCurl)
 library(GEOquery)
 library(Biobase)
 library(feather)
-library("rols")
+library(rols)
 library(rjson)
 
 ######## datatable_to_use ########
@@ -115,14 +115,13 @@ if(file.exists("data/samples_ontology_full_feather.csv")){
 			datatable_new[i,] <- cbind(names(common_metasra_new[i]), NA, paste0(common_metasra_new[[i]][[3]], collapse=","))	
 		}
 	}
-	df <- datatable_new
+	df <- rbind(as.matrix(datatable), datatable_new)
 	df <- na.omit(df)
 	df_new <- data.frame(df, stringsAsFactors = F)
-	colnames(df_new) <- c("Sample", "mapped_ontology_terms","Sample_type")
-	write_feather(df_new, paste0("/opt/raid10/genomics/naim/Thesis/geo/samples_ontology_full_feather.csv"))
+	#colnames(df_new) <- c("Sample", "mapped_ontology_terms","Sample_type")
+	write_feather(df_new, paste0("data/samples_ontology_full_feather.csv"))
 
 } else {
-	datatable <- NULL
 	common_metasra_new <- common_metasra
 	datatable_new <- matrix(, nrow = length(common_metasra_new), ncol = 3)
 	ont_terms <- olsNamespace(Ontologies())
@@ -141,8 +140,9 @@ if(file.exists("data/samples_ontology_full_feather.csv")){
 			datatable_new[i,] <- cbind(names(common_metasra_new[i]), NA, paste0(common_metasra_new[[i]][[3]], collapse=","))	
 		}
 	}
-	df <- rbind(as.matrix(datatable), datatable_new)
+	df <- datatable_new
 	df <- na.omit(df)
 	df_new <- data.frame(df, stringsAsFactors = F)
-	write_feather(df_new, paste0("/opt/raid10/genomics/naim/Thesis/geo/samples_ontology_full_feather.csv"))
+	colnames(df_new) <- c("Sample", "mapped_ontology_terms","Sample_type")
+	write_feather(df_new, paste0("data/samples_ontology_full_feather.csv"))
 }
