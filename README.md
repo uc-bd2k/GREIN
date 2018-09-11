@@ -17,7 +17,7 @@ GREIN provides the flexibility to analyze and create ilincs compliant signatures
 In addition, GREIN produces publication-ready graphs and let the user to download all the analysis results. By accumulating the processed 
 GEO RNA-seq datasets in a common platform, we present GREIN as a prominent choice to the practitioner for analyzing GEO RNA-seq datasets.
 
-![GEO RNA-seq pipeline workflow](../master/www/images/About_steps2.png)
+![GEO RNA-seq pipeline workflow](../master/www/images/About_steps3_814x335.png)
 
 ---
 ## If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
