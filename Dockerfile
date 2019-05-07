@@ -1,5 +1,3 @@
-#FROM shiny.ilincs.org:5000/shiny:3.3.1-1.5.1
-#FROM shiny.ilincs.org:5000/shiny
 FROM rocker/shiny
 COPY . /srv/shiny-server
 
