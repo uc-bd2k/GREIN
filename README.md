@@ -7,7 +7,7 @@ GREIN is accessible at:
 https://shiny.ilincs.org/grein
 ---
 The Gene Expression Omnibus ([GEO](https://www.ncbi.nlm.nih.gov/geo/)) is a public repository of gene expression data 
-that hosts more than 6,000 RNA-seq datasets and this number is increasing. Most of these samples are deposited in raw sequencing 
+that hosts more than 7,500 RNA-seq datasets and this number is increasing. Most of these samples are deposited in raw sequencing 
 format which needs to be downloaded and processed. With an aim to transform all these datasets in an analysis-ready format, 
 we are currently processing the available RNA-seq samples of human, mouse, and rat from GEO using an R-based automated pipeline [GREP2](https://github.com/uc-bd2k/GREP2). 
 This pipeline simultaneously downloads and processes RNA-seq raw sequencing data available in GEO. We demonstrate the results in a web 
@@ -22,7 +22,7 @@ GEO RNA-seq datasets in a common platform, we present GREIN as a prominent choic
 ---
 ## If you use [GREIN](https://shiny.ilincs.org/grein), please cite:
 
-* Al Mahi,N. *et al* (2018) GREIN: An interactive web platform for re-analyzing GEO RNA-seq data. bioRxiv 326223; doi: https://doi.org/10.1101/326223
+* Al Mahi, Naim, *et al.* "GREIN: An interactive web platform for re-analyzing GEO RNA-seq data." Scientific reports 9.1 (2019): 7580; doi: https://doi.org/10.1038/s41598-019-43935-8
 
 ---
 ## Docker instructions
